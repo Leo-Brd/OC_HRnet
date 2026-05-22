@@ -1,10 +1,13 @@
 ﻿import { useEffect, useRef, useState } from "react"
+import { useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
 import states from "../../data/states"
 import departments from "../../data/departments"
 import Modal from "../../components/Modal/Modal"
+import { addEmployee } from "../../store/employeesSlice"
 
 function CreateEmployee() {
+  const dispatch     = useDispatch()
   const dobRef       = useRef(null)
   const startDateRef = useRef(null)
   const [modalOpen, setModalOpen] = useState(false)
@@ -27,7 +30,6 @@ function CreateEmployee() {
 
   const saveEmployee = (e) => {
     e.preventDefault()
-    const employees = JSON.parse(localStorage.getItem("employees")) || []
     const employee = {
       firstName:   document.getElementById("first-name").value,
       lastName:    document.getElementById("last-name").value,
@@ -39,8 +41,7 @@ function CreateEmployee() {
       state:       document.getElementById("state").value,
       zipCode:     document.getElementById("zip-code").value,
     }
-    employees.push(employee)
-    localStorage.setItem("employees", JSON.stringify(employees))
+    dispatch(addEmployee(employee))
     setModalOpen(true)
   }
 

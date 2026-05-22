@@ -1,4 +1,5 @@
 ﻿import { useState, useMemo } from "react"
+import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import DataTable from "react-data-table-component"
 
@@ -51,11 +52,7 @@ const customStyles = {
 
 function EmployeeList() {
   const [filterText, setFilterText] = useState("")
-
-  const employees = useMemo(
-    () => JSON.parse(localStorage.getItem("employees")) || [],
-    []
-  )
+  const employees = useSelector((state) => state.employees)
 
   const filteredEmployees = useMemo(
     () =>
