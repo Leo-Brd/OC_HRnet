@@ -36,10 +36,20 @@ function EmployeeList() {
   }, [])
 
   return (
-    <div id="employee-div" className="container">
-      <h1>Current Employees</h1>
-      <table id="employee-table" className="display" ref={tableRef}></table>
-      <Link to="/">Home</Link>
+    <div className="page">
+      <header className="app-header">
+        <div className="header-inner">
+          <h1 className="logo">HRnet</h1>
+          <Link to="/" className="nav-link">← Add Employee</Link>
+        </div>
+      </header>
+
+      <main className="main-content">
+        <div className="card table-card">
+          <h2>Current Employees</h2>
+          <table id="employee-table" className="display" ref={tableRef}></table>
+        </div>
+      </main>
     </div>
   )
 }

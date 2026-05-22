@@ -56,59 +56,64 @@ function CreateEmployee() {
   }
 
   return (
-    <div>
-      <div className="title">
-        <h1>HRnet</h1>
-      </div>
-      <div className="container">
-        <Link to="/employee-list">View Current Employees</Link>
-        <h2>Create Employee</h2>
-        <form id="create-employee" onSubmit={saveEmployee}>
+    <div className="page">
+      <header className="app-header">
+        <div className="header-inner">
+          <h1 className="logo">HRnet</h1>
+          <Link to="/employee-list" className="nav-link">View Current Employees →</Link>
+        </div>
+      </header>
 
-          <label htmlFor="first-name">First Name</label>
-          <input type="text" id="first-name" />
+      <main className="main-content">
+        <div className="card">
+          <h2>Create Employee</h2>
+          <form id="create-employee" onSubmit={saveEmployee}>
 
-          <label htmlFor="last-name">Last Name</label>
-          <input type="text" id="last-name" />
+            <label htmlFor="first-name">First Name</label>
+            <input type="text" id="first-name" />
 
-          <label htmlFor="date-of-birth">Date of Birth</label>
-          <input id="date-of-birth" type="text" ref={dobRef} />
+            <label htmlFor="last-name">Last Name</label>
+            <input type="text" id="last-name" />
 
-          <label htmlFor="start-date">Start Date</label>
-          <input id="start-date" type="text" ref={startDateRef} />
+            <label htmlFor="date-of-birth">Date of Birth</label>
+            <input id="date-of-birth" type="text" ref={dobRef} />
 
-          <fieldset className="address">
-            <legend>Address</legend>
+            <label htmlFor="start-date">Start Date</label>
+            <input id="start-date" type="text" ref={startDateRef} />
 
-            <label htmlFor="street">Street</label>
-            <input id="street" type="text" />
+            <fieldset className="address">
+              <legend>Address</legend>
 
-            <label htmlFor="city">City</label>
-            <input id="city" type="text" />
+              <label htmlFor="street">Street</label>
+              <input id="street" type="text" />
 
-            <label htmlFor="state">State</label>
-            <select name="state" id="state" ref={stateRef} defaultValue={states[0].abbreviation}>
-              {states.map((s) => (
-                <option key={s.abbreviation} value={s.abbreviation}>
-                  {s.name}
-                </option>
+              <label htmlFor="city">City</label>
+              <input id="city" type="text" />
+
+              <label htmlFor="state">State</label>
+              <select name="state" id="state" ref={stateRef} defaultValue={states[0].abbreviation}>
+                {states.map((s) => (
+                  <option key={s.abbreviation} value={s.abbreviation}>
+                    {s.name}
+                  </option>
+                ))}
+              </select>
+
+              <label htmlFor="zip-code">Zip Code</label>
+              <input id="zip-code" type="number" />
+            </fieldset>
+
+            <label htmlFor="department">Department</label>
+            <select name="department" id="department" ref={deptRef} defaultValue={departments[0]}>
+              {departments.map((dept) => (
+                <option key={dept} value={dept}>{dept}</option>
               ))}
             </select>
 
-            <label htmlFor="zip-code">Zip Code</label>
-            <input id="zip-code" type="number" />
-          </fieldset>
-
-          <label htmlFor="department">Department</label>
-          <select name="department" id="department" ref={deptRef} defaultValue={departments[0]}>
-            {departments.map((dept) => (
-              <option key={dept} value={dept}>{dept}</option>
-            ))}
-          </select>
-
-          <button type="submit">Save</button>
-        </form>
-      </div>
+            <button type="submit">Save Employee</button>
+          </form>
+        </div>
+      </main>
 
       {/* Plugin 2 - div cible pour jquery.modal */}
       <div id="confirmation" className="modal">Employee Created!</div>
