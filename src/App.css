@@ -177,37 +177,25 @@ button[type="submit"]:hover  { background: var(--accent-hover); }
 button[type="submit"]:active { transform: scale(0.99); }
 
 /* ===================================================
-   jQuery UI Selectmenu overrides
+   Select natif (remplace jQuery UI selectmenu)
 =================================================== */
-.ui-selectmenu-button.ui-button {
-  width: 100% !important;
-  padding: 0.6rem 2rem 0.6rem 0.8rem !important;
-  border: 1px solid var(--border) !important;
-  border-radius: var(--radius-sm) !important;
-  background: #ffffff !important;
-  font-size: 0.95rem !important;
-  font-family: inherit !important;
-  color: var(--text) !important;
-  box-shadow: none !important;
-  text-align: left !important;
+select.form-select {
+  width: 100%;
+  padding: 0.6rem 2rem 0.6rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: #ffffff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2364748b' d='M6 8L0 0h12z'/%3E%3C/svg%3E") no-repeat right 0.75rem center;
+  appearance: none;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--text);
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
-.ui-selectmenu-button.ui-button:focus,
-.ui-selectmenu-button.ui-state-active {
-  border-color: var(--border-focus) !important;
-  box-shadow: 0 0 0 3px rgba(59,130,246,0.12) !important;
-  outline: none !important;
-}
-.ui-selectmenu-menu .ui-menu {
-  border: 1px solid var(--border) !important;
-  border-radius: var(--radius-sm) !important;
-  box-shadow: var(--shadow-md) !important;
-  font-size: 0.9rem !important;
-  font-family: inherit !important;
-}
-.ui-selectmenu-menu .ui-menu-item-wrapper.ui-state-active {
-  background: var(--accent) !important;
-  border-color: var(--accent) !important;
-  color: #fff !important;
+select.form-select:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
 }
 
 /* ===================================================
@@ -244,96 +232,41 @@ button[type="submit"]:active { transform: scale(0.99); }
 }
 
 /* ===================================================
-   jquery.modal overrides
+   Table header (react-data-table)
 =================================================== */
-.jquery-modal.blocker {
-  backdrop-filter: blur(3px);
-  background: rgba(0,0,0,0.4) !important;
+.table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
-.jquery-modal .modal {
-  border-radius: var(--radius) !important;
-  box-shadow: var(--shadow-md) !important;
-  padding: 2.5rem 3rem !important;
-  text-align: center;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--text);
-  max-width: 360px;
-  background: var(--card);
-}
-a.close-modal {
-  color: var(--text-muted) !important;
+.table-header h2 {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
 }
 
-/* ===================================================
-   DataTables overrides
-=================================================== */
-.dataTables_wrapper {
-  font-size: 0.875rem;
-  font-family: inherit;
-  width: 100%;
-}
-.dataTables_wrapper .dataTables_length label,
-.dataTables_wrapper .dataTables_filter label,
-.dataTables_wrapper .dataTables_info,
-.dataTables_wrapper .dataTables_paginate {
-  font-family: inherit;
-  color: var(--text-muted);
-  font-size: 0.85rem;
-}
-.dataTables_wrapper .dataTables_length select,
-.dataTables_wrapper .dataTables_filter input {
+.search-input {
+  padding: 0.45rem 0.75rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  padding: 0.35rem 0.6rem;
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   font-family: inherit;
   outline: none;
+  width: 220px;
   transition: border-color 0.15s, box-shadow 0.15s;
 }
-.dataTables_wrapper .dataTables_filter input:focus {
+.search-input:focus {
   border-color: var(--border-focus);
   box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
 }
-table.dataTable {
-  border-collapse: collapse !important;
-  width: 100% !important;
+
+.no-data {
+  padding: 2rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
 }
-table.dataTable thead th {
-  background: var(--primary) !important;
-  color: #ffffff !important;
-  border: none !important;
-  padding: 0.75rem 1rem !important;
-  font-size: 0.78rem !important;
-  font-weight: 600 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.05em !important;
-}
-table.dataTable thead th.sorting::after,
-table.dataTable thead th.sorting_asc::after,
-table.dataTable thead th.sorting_desc::after {
-  color: rgba(255,255,255,0.6) !important;
-}
-table.dataTable tbody td {
-  padding: 0.7rem 1rem !important;
-  border-bottom: 1px solid var(--border) !important;
-  color: var(--text);
-}
-table.dataTable.stripe tbody tr.odd { background: #f8fafc; }
-table.dataTable tbody tr:hover td { background: rgba(59,130,246,0.04) !important; }
-.dataTables_wrapper .dataTables_paginate .paginate_button {
-  border-radius: var(--radius-sm) !important;
-  border: none !important;
-  font-family: inherit !important;
-}
-.dataTables_wrapper .dataTables_paginate .paginate_button.current,
-.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
-  background: var(--accent) !important;
-  color: #fff !important;
-  border: none !important;
-}
-.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-  background: var(--bg) !important;
-  color: var(--text) !important;
-  border: none !important;
-}
+
+

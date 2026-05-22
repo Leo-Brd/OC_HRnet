@@ -1,39 +1,72 @@
-import { useEffect, useRef } from "react"
+﻿import { useState, useMemo } from "react"
 import { Link } from "react-router-dom"
+import DataTable from "react-data-table-component"
 
 const columns = [
-  { title: "First Name",   data: "firstName"   },
-  { title: "Last Name",    data: "lastName"    },
-  { title: "Start Date",   data: "startDate"   },
-  { title: "Department",   data: "department"  },
-  { title: "Date of Birth",data: "dateOfBirth" },
-  { title: "Street",       data: "street"      },
-  { title: "City",         data: "city"        },
-  { title: "State",        data: "state"       },
-  { title: "Zip Code",     data: "zipCode"     },
+  { name: "First Name",    selector: (row) => row.firstName,   sortable: true },
+  { name: "Last Name",     selector: (row) => row.lastName,    sortable: true },
+  { name: "Start Date",    selector: (row) => row.startDate,   sortable: true },
+  { name: "Department",    selector: (row) => row.department,  sortable: true },
+  { name: "Date of Birth", selector: (row) => row.dateOfBirth, sortable: true },
+  { name: "Street",        selector: (row) => row.street,      sortable: true },
+  { name: "City",          selector: (row) => row.city,        sortable: true },
+  { name: "State",         selector: (row) => row.state,       sortable: true },
+  { name: "Zip Code",      selector: (row) => row.zipCode,     sortable: true },
 ]
 
+// Style injecté dans react-data-table pour correspondre au thème navy
+const customStyles = {
+  headRow: {
+    style: {
+      backgroundColor: "#1e3a5f",
+      borderRadius: "6px 6px 0 0",
+    },
+  },
+  headCells: {
+    style: {
+      color: "#ffffff",
+      fontSize: "0.75rem",
+      fontWeight: "600",
+      textTransform: "uppercase",
+      letterSpacing: "0.05em",
+      paddingLeft: "1rem",
+      paddingRight: "1rem",
+    },
+  },
+  rows: {
+    style: { fontSize: "0.875rem", paddingLeft: "0.25rem", paddingRight: "0.25rem" },
+    stripedStyle: { backgroundColor: "#f8fafc" },
+    highlightOnHoverStyle: {
+      backgroundColor: "rgba(59,130,246,0.04)",
+      transitionDuration: "0.1s",
+    },
+  },
+  cells: {
+    style: { paddingLeft: "1rem", paddingRight: "1rem" },
+  },
+  pagination: {
+    style: { fontSize: "0.85rem", color: "#64748b" },
+  },
+}
+
 function EmployeeList() {
-  const tableRef = useRef(null)
+  const [filterText, setFilterText] = useState("")
 
-  useEffect(() => {
-    const $ = globalThis.$
-    if (!$) return
+  const employees = useMemo(
+    () => JSON.parse(localStorage.getItem("employees")) || [],
+    []
+  )
 
-    const tableEl = tableRef.current
-    const employees = JSON.parse(localStorage.getItem("employees")) || []
-
-    const dt = $(tableEl).DataTable({
-      data: employees,
-      columns,
-    })
-
-    return () => {
-      if ($.fn.DataTable.isDataTable(tableEl)) {
-        dt.destroy()
-      }
-    }
-  }, [])
+  const filteredEmployees = useMemo(
+    () =>
+      employees.filter((emp) =>
+        Object.values(emp)
+          .join(" ")
+          .toLowerCase()
+          .includes(filterText.toLowerCase())
+      ),
+    [employees, filterText]
+  )
 
   return (
     <div className="page">
@@ -46,8 +79,25 @@ function EmployeeList() {
 
       <main className="main-content">
         <div className="card table-card">
-          <h2>Current Employees</h2>
-          <table id="employee-table" className="display" ref={tableRef}></table>
+          <div className="table-header">
+            <h2>Current Employees</h2>
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Search…"
+              value={filterText}
+              onChange={(e) => setFilterText(e.target.value)}
+            />
+          </div>
+          <DataTable
+            columns={columns}
+            data={filteredEmployees}
+            customStyles={customStyles}
+            pagination
+            striped
+            highlightOnHover
+            noDataComponent={<p className="no-data">No employees found.</p>}
+          />
         </div>
       </main>
     </div>

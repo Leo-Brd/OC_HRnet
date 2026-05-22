@@ -1,36 +1,27 @@
-﻿import { useEffect, useRef } from "react"
+﻿import { useEffect, useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import states from "../../data/states"
 import departments from "../../data/departments"
+import Modal from "../../components/Modal/Modal"
 
 function CreateEmployee() {
   const dobRef       = useRef(null)
   const startDateRef = useRef(null)
-  const stateRef     = useRef(null)
-  const deptRef      = useRef(null)
+  const [modalOpen, setModalOpen] = useState(false)
 
   useEffect(() => {
     const $ = globalThis.$
     if (!$) return
 
-    const dobEl   = dobRef.current
-    const sdEl    = startDateRef.current
-    const stateEl = stateRef.current
-    const deptEl  = deptRef.current
-
-    // Plugin 1 - jquery.datetimepicker
+    // Plugin 1 - jquery.datetimepicker (conservé — sera converti en composant React npm)
+    const dobEl = dobRef.current
+    const sdEl  = startDateRef.current
     $(dobEl).datetimepicker({ timepicker: false, format: "m/d/Y" })
     $(sdEl).datetimepicker({ timepicker: false, format: "m/d/Y" })
-
-    // Plugin 3 - jQuery UI selectmenu
-    $(stateEl).selectmenu()
-    $(deptEl).selectmenu()
 
     return () => {
       $(dobEl).datetimepicker("destroy")
       $(sdEl).datetimepicker("destroy")
-      $(stateEl).selectmenu("destroy")
-      $(deptEl).selectmenu("destroy")
     }
   }, [])
 
@@ -42,17 +33,20 @@ function CreateEmployee() {
       lastName:    document.getElementById("last-name").value,
       dateOfBirth: dobRef.current.value,
       startDate:   startDateRef.current.value,
-      department:  deptRef.current.value,
+      department:  document.getElementById("department").value,
       street:      document.getElementById("street").value,
       city:        document.getElementById("city").value,
-      state:       stateRef.current.value,
+      state:       document.getElementById("state").value,
       zipCode:     document.getElementById("zip-code").value,
     }
     employees.push(employee)
     localStorage.setItem("employees", JSON.stringify(employees))
+    setModalOpen(true)
+  }
 
-    // Plugin 2 - jquery.modal
-    globalThis.$("#confirmation").modal()
+  const handleCloseModal = () => {
+    setModalOpen(false)
+    document.getElementById("create-employee").reset()
   }
 
   return (
@@ -91,7 +85,7 @@ function CreateEmployee() {
               <input id="city" type="text" />
 
               <label htmlFor="state">State</label>
-              <select name="state" id="state" ref={stateRef} defaultValue={states[0].abbreviation}>
+              <select id="state" name="state" className="form-select" defaultValue={states[0].abbreviation}>
                 {states.map((s) => (
                   <option key={s.abbreviation} value={s.abbreviation}>
                     {s.name}
@@ -104,7 +98,7 @@ function CreateEmployee() {
             </fieldset>
 
             <label htmlFor="department">Department</label>
-            <select name="department" id="department" ref={deptRef} defaultValue={departments[0]}>
+            <select id="department" name="department" className="form-select" defaultValue={departments[0]}>
               {departments.map((dept) => (
                 <option key={dept} value={dept}>{dept}</option>
               ))}
@@ -115,8 +109,9 @@ function CreateEmployee() {
         </div>
       </main>
 
-      {/* Plugin 2 - div cible pour jquery.modal */}
-      <div id="confirmation" className="modal">Employee Created!</div>
+      <Modal isOpen={modalOpen} onClose={handleCloseModal}>
+        <p>Employee Created!</p>
+      </Modal>
     </div>
   )
 }
