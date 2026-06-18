@@ -1,53 +1,66 @@
-﻿import { useEffect, useRef, useState } from "react"
+﻿import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
 import states from "../../data/states"
 import departments from "../../data/departments"
 import Modal from "../../components/Modal/Modal"
 import { addEmployee } from "../../store/employeesSlice"
 
 function CreateEmployee() {
-  const dispatch     = useDispatch()
-  const dobRef       = useRef(null)
-  const startDateRef = useRef(null)
+  const dispatch = useDispatch()
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
+  const [dateOfBirth, setDateOfBirth] = useState(null)
+  const [startDate, setStartDate] = useState(null)
+  const [department, setDepartment] = useState(departments[0])
+  const [street, setStreet] = useState("")
+  const [city, setCity] = useState("")
+  const [state, setState] = useState(states[0].abbreviation)
+  const [zipCode, setZipCode] = useState("")
   const [modalOpen, setModalOpen] = useState(false)
 
-  useEffect(() => {
-    const $ = globalThis.$
-    if (!$) return
-
-    // Plugin 1 - jquery.datetimepicker (conservé — sera converti en composant React npm)
-    const dobEl = dobRef.current
-    const sdEl  = startDateRef.current
-    $(dobEl).datetimepicker({ timepicker: false, format: "m/d/Y" })
-    $(sdEl).datetimepicker({ timepicker: false, format: "m/d/Y" })
-
-    return () => {
-      $(dobEl).datetimepicker("destroy")
-      $(sdEl).datetimepicker("destroy")
-    }
-  }, [])
+  const formatDate = (date) => {
+    if (!date) return ""
+    const month = String(date.getMonth() + 1).padStart(2, "0")
+    const day = String(date.getDate()).padStart(2, "0")
+    const year = date.getFullYear()
+    return `${month}/${day}/${year}`
+  }
 
   const saveEmployee = (e) => {
     e.preventDefault()
     const employee = {
-      firstName:   document.getElementById("first-name").value,
-      lastName:    document.getElementById("last-name").value,
-      dateOfBirth: dobRef.current.value,
-      startDate:   startDateRef.current.value,
-      department:  document.getElementById("department").value,
-      street:      document.getElementById("street").value,
-      city:        document.getElementById("city").value,
-      state:       document.getElementById("state").value,
-      zipCode:     document.getElementById("zip-code").value,
+      firstName,
+      lastName,
+      dateOfBirth: formatDate(dateOfBirth),
+      startDate: formatDate(startDate),
+      department,
+      street,
+      city,
+      state,
+      zipCode,
     }
     dispatch(addEmployee(employee))
     setModalOpen(true)
+    handleResetForm()
+  }
+
+  const handleResetForm = () => {
+    setFirstName("")
+    setLastName("")
+    setDateOfBirth(null)
+    setStartDate(null)
+    setDepartment(departments[0])
+    setStreet("")
+    setCity("")
+    setState(states[0].abbreviation)
+    setZipCode("")
   }
 
   const handleCloseModal = () => {
     setModalOpen(false)
-    document.getElementById("create-employee").reset()
   }
 
   return (
@@ -62,31 +75,67 @@ function CreateEmployee() {
       <main className="main-content">
         <div className="card">
           <h2>Create Employee</h2>
-          <form id="create-employee" onSubmit={saveEmployee}>
+          <form onSubmit={saveEmployee}>
 
             <label htmlFor="first-name">First Name</label>
-            <input type="text" id="first-name" />
+            <input
+              type="text"
+              id="first-name"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+            />
 
             <label htmlFor="last-name">Last Name</label>
-            <input type="text" id="last-name" />
+            <input
+              type="text"
+              id="last-name"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+            />
 
             <label htmlFor="date-of-birth">Date of Birth</label>
-            <input id="date-of-birth" type="text" ref={dobRef} />
+            <DatePicker
+              selected={dateOfBirth}
+              onChange={(date) => setDateOfBirth(date)}
+              dateFormat="MM/dd/yyyy"
+              placeholderText="MM/DD/YYYY"
+            />
 
             <label htmlFor="start-date">Start Date</label>
-            <input id="start-date" type="text" ref={startDateRef} />
+            <DatePicker
+              selected={startDate}
+              onChange={(date) => setStartDate(date)}
+              dateFormat="MM/dd/yyyy"
+              placeholderText="MM/DD/YYYY"
+            />
 
             <fieldset className="address">
               <legend>Address</legend>
 
               <label htmlFor="street">Street</label>
-              <input id="street" type="text" />
+              <input
+                id="street"
+                type="text"
+                value={street}
+                onChange={(e) => setStreet(e.target.value)}
+              />
 
               <label htmlFor="city">City</label>
-              <input id="city" type="text" />
+              <input
+                id="city"
+                type="text"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+              />
 
               <label htmlFor="state">State</label>
-              <select id="state" name="state" className="form-select" defaultValue={states[0].abbreviation}>
+              <select
+                id="state"
+                name="state"
+                className="form-select"
+                value={state}
+                onChange={(e) => setState(e.target.value)}
+              >
                 {states.map((s) => (
                   <option key={s.abbreviation} value={s.abbreviation}>
                     {s.name}
@@ -95,11 +144,22 @@ function CreateEmployee() {
               </select>
 
               <label htmlFor="zip-code">Zip Code</label>
-              <input id="zip-code" type="number" />
+              <input
+                id="zip-code"
+                type="number"
+                value={zipCode}
+                onChange={(e) => setZipCode(e.target.value)}
+              />
             </fieldset>
 
             <label htmlFor="department">Department</label>
-            <select id="department" name="department" className="form-select" defaultValue={departments[0]}>
+            <select
+              id="department"
+              name="department"
+              className="form-select"
+              value={department}
+              onChange={(e) => setDepartment(e.target.value)}
+            >
               {departments.map((dept) => (
                 <option key={dept} value={dept}>{dept}</option>
               ))}
