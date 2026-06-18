@@ -1,8 +1,7 @@
 ﻿import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
-import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
+import DateTimePicker from "@Leo-Brd/react-datetimepicker"
 import states from "../../data/states"
 import departments from "../../data/departments"
 import Modal from "../../components/Modal/Modal"
@@ -94,19 +93,19 @@ function CreateEmployee() {
             />
 
             <label htmlFor="date-of-birth">Date of Birth</label>
-            <DatePicker
-              selected={dateOfBirth}
-              onChange={(date) => setDateOfBirth(date)}
-              dateFormat="MM/dd/yyyy"
-              placeholderText="MM/DD/YYYY"
+            <DateTimePicker
+              value={dateOfBirth}
+              onChange={setDateOfBirth}
+              format="MM/DD/YYYY"
+              placeholder="MM/DD/YYYY"
             />
 
             <label htmlFor="start-date">Start Date</label>
-            <DatePicker
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
-              dateFormat="MM/dd/yyyy"
-              placeholderText="MM/DD/YYYY"
+            <DateTimePicker
+              value={startDate}
+              onChange={setStartDate}
+              format="MM/DD/YYYY"
+              placeholder="MM/DD/YYYY"
             />
 
             <fieldset className="address">
