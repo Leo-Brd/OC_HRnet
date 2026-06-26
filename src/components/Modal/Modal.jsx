@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react"
-import PropTypes from "prop-types"
 import "./Modal.css"
 
 /**
@@ -53,12 +52,6 @@ function Modal({ isOpen, onClose, children }) {
       </div>
     </dialog>
   )
-}
-
-Modal.propTypes = {
-  isOpen:   PropTypes.bool.isRequired,
-  onClose:  PropTypes.func.isRequired,
-  children: PropTypes.node.isRequired,
 }
 
 export default Modal
