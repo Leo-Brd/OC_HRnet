@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@Leo-Brd/react-datetimepicker": "^1.0.2",
+    "@leo_brd/react-datetimepicker": "^1.0.5",
     "@reduxjs/toolkit": "^2.12.0",
     "prop-types": "^15.8.1",
     "react": "^19.2.6",
