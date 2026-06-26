@@ -14,6 +14,21 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    include: ['@Leo-Brd/react-datetimepicker'],
+    include: ['@leo_brd/react-datetimepicker'],
+  },
+  build: {
+    // Optimized chunk splitting for better caching and loading
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('redux')) return 'vendor-react'
+            if (id.includes('react-router')) return 'vendor-routing'
+            if (id.includes('react-data-table')) return 'vendor-table'
+            return 'vendor'
+          }
+        },
+      },
+    },
   },
 })
