@@ -24,7 +24,6 @@ export default defineConfig({
           if (id.includes('node_modules')) {
             if (id.includes('react') || id.includes('redux')) return 'vendor-react'
             if (id.includes('react-router')) return 'vendor-routing'
-            if (id.includes('react-data-table')) return 'vendor-table'
             return 'vendor'
           }
         },

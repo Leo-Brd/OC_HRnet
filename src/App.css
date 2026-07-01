@@ -232,7 +232,7 @@ select.form-select:focus {
 }
 
 /* ===================================================
-   Table header (react-data-table)
+   Table header
 =================================================== */
 .table-header {
   display: flex;

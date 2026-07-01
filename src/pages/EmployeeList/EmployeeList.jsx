@@ -1,53 +1,52 @@
 ﻿import { useState, useMemo } from "react"
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
-import DataTable from "react-data-table-component"
 
 const columns = [
-  { name: "First Name",    selector: (row) => row.firstName,   sortable: true },
-  { name: "Last Name",     selector: (row) => row.lastName,    sortable: true },
-  { name: "Start Date",    selector: (row) => row.startDate,   sortable: true },
-  { name: "Department",    selector: (row) => row.department,  sortable: true },
-  { name: "Date of Birth", selector: (row) => row.dateOfBirth, sortable: true },
-  { name: "Street",        selector: (row) => row.street,      sortable: true },
-  { name: "City",          selector: (row) => row.city,        sortable: true },
-  { name: "State",         selector: (row) => row.state,       sortable: true },
-  { name: "Zip Code",      selector: (row) => row.zipCode,     sortable: true },
+  { key: "firstName", label: "First Name" },
+  { key: "lastName", label: "Last Name" },
+  { key: "startDate", label: "Start Date" },
+  { key: "department", label: "Department" },
+  { key: "dateOfBirth", label: "Date of Birth" },
+  { key: "street", label: "Street" },
+  { key: "city", label: "City" },
+  { key: "state", label: "State" },
+  { key: "zipCode", label: "Zip Code" },
 ]
 
-// Style injecté dans react-data-table pour correspondre au thème navy
-const customStyles = {
-  headRow: {
-    style: {
-      backgroundColor: "#1e3a5f",
-      borderRadius: "6px 6px 0 0",
-    },
-  },
-  headCells: {
-    style: {
-      color: "#ffffff",
-      fontSize: "0.75rem",
-      fontWeight: "600",
-      textTransform: "uppercase",
-      letterSpacing: "0.05em",
-      paddingLeft: "1rem",
-      paddingRight: "1rem",
-    },
-  },
-  rows: {
-    style: { fontSize: "0.875rem", paddingLeft: "0.25rem", paddingRight: "0.25rem" },
-    stripedStyle: { backgroundColor: "#f8fafc" },
-    highlightOnHoverStyle: {
-      backgroundColor: "rgba(59,130,246,0.04)",
-      transitionDuration: "0.1s",
-    },
-  },
-  cells: {
-    style: { paddingLeft: "1rem", paddingRight: "1rem" },
-  },
-  pagination: {
-    style: { fontSize: "0.85rem", color: "#64748b" },
-  },
+// Table styles for proper HTML table
+const tableStyle = {
+  width: "100%",
+  borderCollapse: "collapse",
+  fontSize: "0.875rem",
+}
+
+const theadStyle = {
+  backgroundColor: "#1e3a5f",
+  color: "#ffffff",
+}
+
+const thStyle = {
+  padding: "1rem",
+  fontSize: "0.75rem",
+  fontWeight: "600",
+  textTransform: "uppercase",
+  letterSpacing: "0.05em",
+  textAlign: "left",
+  borderBottom: "2px solid #1e3a5f",
+}
+
+const tbodyTrStyle = {
+  borderBottom: "1px solid #e2e8f0",
+  cursor: "pointer",
+}
+
+const tbodyTrHoverStyle = {
+  backgroundColor: "rgba(59,130,246,0.04)",
+}
+
+const tdStyle = {
+  padding: "1rem",
 }
 
 function EmployeeList() {
@@ -86,15 +85,46 @@ function EmployeeList() {
               onChange={(e) => setFilterText(e.target.value)}
             />
           </div>
-          <DataTable
-            columns={columns}
-            data={filteredEmployees}
-            customStyles={customStyles}
-            pagination
-            striped
-            highlightOnHover
-            noDataComponent={<p className="no-data">No employees found.</p>}
-          />
+          
+          {filteredEmployees.length === 0 ? (
+            <div role="status" aria-live="polite" className="no-data">
+              No employees found.
+            </div>
+          ) : (
+            <div style={{ overflowX: "auto" }}>
+              <table style={tableStyle}>
+                <thead style={theadStyle}>
+                  <tr>
+                    {columns.map((col) => (
+                      <th key={col.key} style={thStyle}>
+                        {col.label}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredEmployees.map((row, idx) => (
+                    <tr 
+                      key={idx}
+                      style={tbodyTrStyle}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = tbodyTrHoverStyle.backgroundColor
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = "transparent"
+                      }}
+                    >
+                      {columns.map((col) => (
+                        <td key={col.key} style={tdStyle}>
+                          {row[col.key]}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </main>
     </div>
