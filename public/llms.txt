@@ -1,0 +1,34 @@
+# HRnet - Employee Management Application
+
+HRnet is a modern React-based employee management application designed to streamline the creation and management of employee records with an intuitive user interface.
+
+## Features
+
+- **Create Employees**: Add new employee records with comprehensive information
+- **Employee Directory**: View and manage all employee records in a centralized location
+- **Data Persistence**: Redux state management for reliable data handling
+- **Responsive Design**: Fully responsive interface that works on all devices
+- **SEO Optimized**: Built with accessibility and search engine optimization in mind
+
+## Pages
+
+- [Create Employee](/employees/create) - Add new employees to the system
+- [Employee List](/employees) - View all employees in the database
+- [Homepage](/) - Main landing page
+
+## Technology Stack
+
+- **Frontend**: React 19 with Vite
+- **State Management**: Redux Toolkit
+- **Routing**: React Router DOM
+- **UI Components**: React Data Table Component
+- **Date/Time**: React DateTime Picker
+- **Styling**: CSS3
+
+## Getting Started
+
+To learn more about HRnet and how to use it, visit the main application or explore the employee management features.
+
+---
+
+For more information, visit the [project repository](https://github.com/your-repo) or contact the development team.
