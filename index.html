@@ -16,19 +16,22 @@
     <style>
       *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
       :root { font-family: system-ui, sans-serif; font-size: 16px; color: #0f172a; background: #f1f5f9; }
-      body { min-height: 100vh; }
       html, body, #root { width: 100%; height: 100%; }
+      /* System font stack for faster first paint */
+      body { min-height: 100vh; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
     </style>
 
-    <!-- Preconnect to font CDN for faster DNS resolution -->
+    <!-- Preconnect to font CDN with early hints -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
     
-    <!-- Google Fonts with optimal display strategy -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=optional" rel="stylesheet" />
+    <!-- Google Fonts with swap for better performance -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   </head>
   <body>
     <div id="root"></div>
+    <!-- Main app script with optimized loading -->
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

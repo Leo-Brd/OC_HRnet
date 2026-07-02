@@ -9,7 +9,7 @@
   --bg:            #f1f5f9;
   --card:          #ffffff;
   --text:          #0f172a;
-  --text-muted:    #64748b;
+  --text-muted:    #394352;  /* Enhanced for better contrast (WCAG AA) */
   --border:        #e2e8f0;
   --border-focus:  #3b82f6;
   --shadow-sm:     0 1px 3px rgba(0,0,0,0.08);
